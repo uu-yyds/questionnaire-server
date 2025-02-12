@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -12,11 +12,7 @@ export class AppController {
 
   @Get('test')
   getTest(): string {
-    return 'test';
+    throw new HttpException('获取数据失败', HttpStatus.BAD_REQUEST);
+    // return 'test';
   }
-
-  // @Get('questionnaire')
-  // getQuestionnaire(): string {
-  //   return this.appService.getQuestionnaire();
-  // }
 }
