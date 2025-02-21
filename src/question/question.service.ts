@@ -18,7 +18,7 @@ export class QuestionService {
     username?: string,
     nickname?: string
   ): Promise<Question> {
-    const { title, description, componentsList } = questionInfo || {};
+    const { title, description, componentsList, ...rest } = questionInfo || {};
     const createdQuestion = new this.questionModel({
       title: title || `标题${new Date().getTime()}`,
       description: description || '',
@@ -31,6 +31,8 @@ export class QuestionService {
           fe_id: nanoid(),
           type: 'questionInfo',
           title: '问卷信息',
+          css: '',
+          js: '',
           isHidden: false,
           isDisabled: false,
           isLocked: false,
@@ -44,6 +46,7 @@ export class QuestionService {
           },
         },
       ],
+      ...rest,
     });
     return createdQuestion.save();
   }
@@ -74,9 +77,9 @@ export class QuestionService {
     keyword = '',
     page = 1,
     pageSize = 10,
+    author,
     isDeleted = false,
     isStar = false,
-    author,
   }: QuestionListDto): Promise<Question[]> {
     const skip = (page - 1) * pageSize;
     return this.questionModel
@@ -140,7 +143,12 @@ export class QuestionService {
     return questions;
   }
 
-  async duplicateQuestion(id: string, username: string, nickname: string): Promise<Question> {
+  async duplicateQuestion(
+    id: string,
+    username: string,
+    nickname: string,
+    questionDto?: QuestionDto
+  ): Promise<Question> {
     const question = await this.questionModel.findById(id);
     if (!question) {
       throw new NotFoundException('问卷不存在');
@@ -156,6 +164,7 @@ export class QuestionService {
         ...component,
         fe_id: nanoid(),
       })),
+      ...questionDto,
     });
     return newQuestion.save();
   }

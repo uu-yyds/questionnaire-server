@@ -28,13 +28,10 @@ export class AuthService {
       throw new NotFoundException(PASSWORD_ERROR_MESSAGE);
     }
     return {
-      message: LOGIN_SUCCESS_MESSAGE,
-      result: {
-        username: user.username,
-        nickname: user.nickname,
-        avatar: user.avatar,
-        access_token: this.jwtService.sign({ ...user }),
-      },
+      username: user.username,
+      nickname: user.nickname,
+      avatar: user.avatar,
+      access_token: this.jwtService.sign({ ...user }),
     };
   }
 }

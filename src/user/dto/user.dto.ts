@@ -1,11 +1,8 @@
 export class LoginResponseDto {
-  message: string;
-  result: {
-    username: string;
-    nickname: string;
-    avatar: string;
-    access_token: string;
-  };
+  username: string;
+  nickname: string;
+  avatar: string;
+  access_token: string;
 }
 
 export class UserWithoutPasswordDto {

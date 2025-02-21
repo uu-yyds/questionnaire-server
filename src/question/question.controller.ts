@@ -39,7 +39,7 @@ export class QuestionController {
     return this.questionService.findQuestionById(id);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   deleteQuestionById(@Param('id') id: string, @Request() req: any): any {
     const { username, nickname } = req.user._doc;
     return this.questionService.deleteQuestionById(id, username, nickname);
@@ -51,7 +51,7 @@ export class QuestionController {
     return this.questionService.createQuestion(questionDto, username, nickname);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   updateQuestionById(
     @Param('id') id: string,
     @Body() questionDto: QuestionDto,
@@ -68,8 +68,12 @@ export class QuestionController {
   }
 
   @Post('duplicate/:id')
-  duplicateQuestion(@Param('id') id: string, @Request() req: any): any {
+  duplicateQuestion(
+    @Param('id') id: string,
+    @Request() req: any,
+    @Body() questionDto?: QuestionDto
+  ): any {
     const { username, nickname } = req.user._doc;
-    return this.questionService.duplicateQuestion(id, username, nickname);
+    return this.questionService.duplicateQuestion(id, username, nickname, questionDto);
   }
 }
