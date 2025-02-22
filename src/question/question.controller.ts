@@ -34,6 +34,7 @@ export class QuestionController {
     };
   }
 
+  @Public()
   @Get(':id')
   getQuestionById(@Param('id') id: string): any {
     return this.questionService.findQuestionById(id);

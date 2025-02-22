@@ -9,7 +9,7 @@ export class AnswerService {
   constructor(@InjectModel(Answer.name) private readonly answerModel: Model<Answer>) {}
 
   async createAnswer(answer: Answer): Promise<Answer> {
-    if (!answer.questionId) {
+    if (!answer?.questionId) {
       throw new BadRequestException('缺少问卷ID');
     }
     return this.answerModel.create(answer);
